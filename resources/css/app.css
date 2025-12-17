@@ -1,3 +1,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --kpihub-primary: #00D084;
+        --kpihub-accent: #FF4FA2;
+        --kpihub-ink: #1C1C1C;
+        --kpihub-surface: #FAFAFA;
+    }
+
+    .dark {
+        --kpihub-primary: #00D084;
+        --kpihub-accent: #FF4FA2;
+        --kpihub-ink: #FFFFFF;
+        --kpihub-surface: #1C1C1C;
+    }
+
+    body {
+        @apply bg-surface text-ink antialiased;
+    }
+
+    a {
+        @apply text-ink no-underline;
+    }
+}
+
+@layer components {
+    .brand-card {
+        @apply bg-white dark:bg-[#2E2E2E] rounded-2xl shadow-card border border-gray-100 dark:border-gray-800;
+    }
+
+    .brand-pill {
+        @apply inline-flex items-center gap-2 rounded-full bg-primary text-ink px-3 py-1 text-xs font-semibold uppercase tracking-wide;
+    }
+
+    .btn-primary {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-[#1C1C1C] shadow-subtle transition hover:bg-[#00a86b] hover:shadow-card focus:outline-none focus:ring-2 focus:ring-ink focus:ring-offset-2 focus:ring-offset-surface;
+    }
+
+    .btn-secondary {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#2E2E2E] px-4 py-2 text-sm font-semibold text-ink shadow-subtle transition hover:bg-gray-50 dark:hover:bg-gray-800 hover:shadow-card focus:outline-none focus:ring-2 focus:ring-ink focus:ring-offset-2 focus:ring-offset-surface;
+    }
+
+    .input-field {
+        @apply block w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#2E2E2E] px-3 py-2 text-sm text-ink shadow-inner focus:border-primary focus:ring-2 focus:ring-primary focus:ring-offset-0;
+    }
+
+    .section-title {
+        @apply text-xl font-semibold text-ink;
+    }
+}

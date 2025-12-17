@@ -9,7 +9,7 @@ KpiHub est une plateforme web(Saas) qui centralise les influenceurs, met à leur
 
 C'est un outil qui permettra aux influenceurs de créer leur portfolio dynamique, de gérer leurs profil KPI interactif, et d'avoir un dashboard qui leur permettra de gérer leur compte.
 
-L'objectif est de faire de cette plateforme une référence en matière de preuve d'efficacité marketing pour les réseaux sociaux (TikTok, Instagram, YouTube, et Linkeding).
+L'objectif est de faire de cette plateforme une référence en matière de preuve d'efficacité marketing pour les réseaux sociaux (TikTok, Instagram, YouTube, et Linkedin).
 
 ### Vision
 

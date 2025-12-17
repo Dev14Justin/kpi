@@ -26,13 +26,44 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $validated = $request->validated();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user->fill($validated);
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
+
+        // Handle Role Specific Data
+        if ($user->role === \App\Enums\UserRole::Influencer) {
+            $user->influencerProfile()->updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'pseudo' => $validated['pseudo'] ?? null,
+                    'niche' => $validated['niche'] ?? null,
+                    'niche_other' => $validated['niche_other'] ?? null,
+                ]
+            );
+        } elseif ($user->role === \App\Enums\UserRole::Enterprise) {
+            $user->enterpriseProfile()->updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'company_name' => $validated['company_name'] ?? null,
+                    'company_email' => $validated['company_email'] ?? null,
+                    'company_phone' => $validated['company_phone'] ?? null,
+                    'company_country' => $validated['company_country'] ?? null,
+                    'company_city' => $validated['company_city'] ?? null,
+                    'industry' => $validated['industry'] ?? null,
+                    'description' => $validated['description'] ?? null,
+                    'website' => $validated['website'] ?? null,
+                    // Use the same social_links array for enterprise social links if provided
+                    'social_links' => $validated['social_links'] ?? null,
+                ]
+            );
+        }
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
