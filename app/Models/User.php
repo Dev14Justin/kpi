@@ -24,6 +24,8 @@ class User extends Authenticatable implements FilamentUser
      */
     protected $fillable = [
         'name',
+        'first_name',
+        'last_name',
         'email',
         'profile_photo_path',
         'password',
@@ -37,6 +39,7 @@ class User extends Authenticatable implements FilamentUser
         'professional_title',
         'bio',
         'social_links',
+        'privacy_settings',
     ];
 
     /**
@@ -62,6 +65,7 @@ class User extends Authenticatable implements FilamentUser
             'role' => UserRole::class,
             'main_platform' => MainPlatform::class,
             'social_links' => 'array',
+            'privacy_settings' => 'array',
         ];
     }
 

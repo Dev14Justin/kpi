@@ -50,7 +50,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('settings.index');
     })->name('settings.index');
 
-    Route::get('/my-profile', [ProfileController::class, 'edit'])->name('profile.show');
+    Route::get('/discussions', function () {
+        return view('discussions.index');
+    })->name('discussions.index');
+
+    Route::get('/my-profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/u/{user}', [ProfileController::class, 'publicShow'])->name('profile.public');
 });
 
 Route::middleware('auth')->group(function () {

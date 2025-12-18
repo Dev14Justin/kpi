@@ -15,7 +15,20 @@ class InfluencerProfile extends Model
         'pseudo',
         'niche',
         'niche_other',
+        'social_links',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'social_links' => 'array',
+        ];
+    }
 
     public function user(): BelongsTo
     {

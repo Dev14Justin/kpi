@@ -20,6 +20,10 @@ class InfluencerProfileFactory extends Factory
             'pseudo' => fake()->userName(),
             'niche' => fake()->randomElement(['Education', 'Humour/Comédie', 'Cuisine/Food', 'Art/Design', 'Technologie', 'Voyage', 'Mode/Beauté', 'Fitness/Sport', 'Gaming']),
             'niche_other' => null,
+            'social_links' => [
+                'tiktok' => 'https://tiktok.com/@' . fake()->userName(),
+                'instagram' => 'https://instagram.com/' . fake()->userName(),
+            ],
         ];
     }
 }

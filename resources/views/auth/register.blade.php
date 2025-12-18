@@ -15,16 +15,22 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="space-y-2">
-                    <x-input-label for="name" :value="__('Name')" />
-                    <x-text-input id="name" class="input-field" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-                    <x-input-error :messages="$errors->get('name')" class="mt-1" />
+                    <x-input-label for="last_name" :value="__('Nom')" />
+                    <x-text-input id="last_name" class="input-field" type="text" name="last_name" :value="old('last_name')" required autocomplete="family-name" />
+                    <x-input-error :messages="$errors->get('last_name')" class="mt-1" />
                 </div>
-
+                
                 <div class="space-y-2">
-                    <x-input-label for="email" :value="__('Email')" />
-                    <x-text-input id="email" class="input-field" type="email" name="email" :value="old('email')" required autocomplete="username" />
-                    <x-input-error :messages="$errors->get('email')" class="mt-1" />
+                    <x-input-label for="first_name" :value="__('Prénom')" />
+                    <x-text-input id="first_name" class="input-field" type="text" name="first_name" :value="old('first_name')" required autofocus autocomplete="given-name" />
+                    <x-input-error :messages="$errors->get('first_name')" class="mt-1" />
                 </div>
+            </div>
+
+            <div class="space-y-2">
+                <x-input-label for="email" :value="__('Email')" />
+                <x-text-input id="email" class="input-field" type="email" name="email" :value="old('email')" required autocomplete="username" />
+                <x-input-error :messages="$errors->get('email')" class="mt-1" />
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -73,11 +79,12 @@
                             x-model="platform"
                             class="input-field">
                             <option value="">{{ __('Sélectionnez') }}</option>
-                            @foreach (\App\Enums\MainPlatform::cases() as $platform)
-                            <option value="{{ $platform->value }}" @selected(old('main_platform')===$platform->value)>
-                                {{ $platform->label() }}
-                            </option>
-                            @endforeach
+                            <option value="tiktok" @selected(old('main_platform')==='tiktok' )>TikTok</option>
+                            <option value="instagram" @selected(old('main_platform')==='instagram' )>Instagram</option>
+                            <option value="youtube" @selected(old('main_platform')==='youtube' )>YouTube</option>
+                            <option value="linkedin" @selected(old('main_platform')==='linkedin' )>LinkedIn</option>
+                            <option value="twitter" @selected(old('main_platform')==='twitter' )>Twitter</option>
+                            <option value="facebook" @selected(old('main_platform')==='facebook' )>Facebook</option>
                         </select>
                         <x-input-error :messages="$errors->get('main_platform')" class="mt-1" />
                     </div>

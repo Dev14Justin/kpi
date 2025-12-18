@@ -16,7 +16,9 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['nullable', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
                 'string',
@@ -25,6 +27,7 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'profile_photo_path' => ['nullable', 'image', 'max:2048'],
 
             // Common Info
             'gender' => ['nullable', 'string', 'in:male,female,other'],
@@ -39,6 +42,7 @@ class ProfileUpdateRequest extends FormRequest
             'social_links.youtube' => ['nullable', 'url'],
             'social_links.linkedin' => ['nullable', 'url'],
             'social_links.twitter' => ['nullable', 'url'],
+            'social_links.facebook' => ['nullable', 'url'],
 
             // Legacy fields (optional, keep if used)
             'main_platform' => ['nullable', 'string'],
@@ -49,6 +53,15 @@ class ProfileUpdateRequest extends FormRequest
             'niche' => ['nullable', 'string', 'max:255'],
             'niche_other' => ['nullable', 'string', 'max:255'],
 
+            // Influencer Social Links
+            'influencer_social_links' => ['nullable', 'array'],
+            'influencer_social_links.tiktok' => ['nullable', 'url'],
+            'influencer_social_links.instagram' => ['nullable', 'url'],
+            'influencer_social_links.youtube' => ['nullable', 'url'],
+            'influencer_social_links.linkedin' => ['nullable', 'url'],
+            'influencer_social_links.twitter' => ['nullable', 'url'],
+            'influencer_social_links.facebook' => ['nullable', 'url'],
+
             // Enterprise Specific
             'company_name' => ['nullable', 'string', 'max:255'],
             'company_email' => ['nullable', 'email', 'max:255'],
@@ -58,7 +71,24 @@ class ProfileUpdateRequest extends FormRequest
             'industry' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:1000'],
             'website' => ['nullable', 'url', 'max:255'],
-            // Reuse social_links array structure for enterprise if needed, or mapped fields
+
+            // Enterprise Social Links
+            'enterprise_social_links' => ['nullable', 'array'],
+            'enterprise_social_links.tiktok' => ['nullable', 'url'],
+            'enterprise_social_links.instagram' => ['nullable', 'url'],
+            'enterprise_social_links.youtube' => ['nullable', 'url'],
+            'enterprise_social_links.linkedin' => ['nullable', 'url'],
+            'enterprise_social_links.twitter' => ['nullable', 'url'],
+            'enterprise_social_links.facebook' => ['nullable', 'url'],
+
+            // Privacy Settings
+            'privacy_settings' => ['nullable', 'array'],
+            'privacy_settings.show_email' => ['nullable', 'boolean'],
+            'privacy_settings.show_phone' => ['nullable', 'boolean'],
+            'privacy_settings.show_social' => ['nullable', 'boolean'],
+            'privacy_settings.show_bio' => ['nullable', 'boolean'],
+            'privacy_settings.show_professional_title' => ['nullable', 'boolean'],
+            'privacy_settings.show_location' => ['nullable', 'boolean'],
         ];
     }
 }

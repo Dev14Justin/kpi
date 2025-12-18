@@ -17,16 +17,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Supprime tous les utilisateurs sauf l'Admin
+        User::where('role', '!=', UserRole::Admin)
+            ->where('email', '!=', 'admin@kpihub.test') // Sécurité supplémentaire
+            ->delete();
+
         // 4 Standard Users
         User::factory(4)->create([
             'role' => UserRole::User,
         ]);
 
         // 4 Influencers
-        User::factory(4)->create([
-            'role' => UserRole::Influencer,
+        User::factory(4)->influencer()->create([
             'main_platform' => MainPlatform::Tiktok,
-            'profile_url' => fn() => 'https://www.tiktok.com/@' . fake()->userName(),
         ])->each(function (User $user) {
             \App\Models\InfluencerProfile::factory()->create(['user_id' => $user->id]);
         });
@@ -38,12 +41,14 @@ class DatabaseSeeder extends Seeder
             \App\Models\EnterpriseProfile::factory()->create(['user_id' => $user->id]);
         });
 
-        // Keep Admin
-        if (!User::where('email', 'admin@kpihub.test')->exists()) {
+        // S'assurer que l'Admin existe toujours
+        if (!User::where('role', UserRole::Admin)->exists()) {
             User::factory()->create([
-                'name' => 'Admin',
+                'first_name' => 'Admin',
+                'last_name' => 'KpiHub',
+                'name' => 'Admin KpiHub',
                 'email' => 'admin@kpihub.test',
-                'password' => 'passwordadmin',
+                'password' => \Illuminate\Support\Facades\Hash::make('passwordadmin'),
                 'role' => UserRole::Admin,
             ]);
         }

@@ -25,10 +25,15 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $firstName = fake()->firstName();
+        $lastName = fake()->lastName();
+
         return [
-            'name' => fake()->name(),
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'name' => $firstName . ' ' . $lastName,
             'email' => fake()->unique()->safeEmail(),
-            'profile_photo_path' => 'https://ui-avatars.com/api/?name=' . urlencode(fake()->name()) . '&color=7F9CF5&background=EBF4FF',
+            'profile_photo_path' => null,
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'role' => UserRole::default(),
@@ -36,15 +41,24 @@ class UserFactory extends Factory
             'profile_url' => null,
             'gender' => fake()->randomElement(['male', 'female']),
             'city' => fake()->city(),
-            'country' => fake()->country(),
+            'country' => 'Sénégal',
             'phone' => fake()->phoneNumber(),
             'professional_title' => fake()->jobTitle(),
             'bio' => fake()->paragraph(),
             'social_links' => [
                 'tiktok' => 'https://tiktok.com/@' . fake()->userName(),
                 'instagram' => 'https://instagram.com/' . fake()->userName(),
+                'facebook' => 'https://facebook.com/' . fake()->userName(),
             ],
             'remember_token' => Str::random(10),
+            'privacy_settings' => [
+                'show_email' => true,
+                'show_phone' => true,
+                'show_location' => true,
+                'show_social' => true,
+                'show_bio' => true,
+                'show_professional_title' => true,
+            ],
         ];
     }
 
@@ -67,10 +81,10 @@ class UserFactory extends Factory
         ]);
     }
 
-    public function brand(): static
+    public function enterprise(): static
     {
         return $this->state(fn(array $attributes) => [
-            'role' => UserRole::Brand,
+            'role' => UserRole::Enterprise,
         ]);
     }
 
