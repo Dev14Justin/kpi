@@ -1,61 +1,56 @@
 <x-app-layout>
-    <div class="py-12 bg-gray-50 dark:bg-[#121212] min-h-screen">
-
-        <!-- 1. Header Section (Centered) -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
-            <div class="flex flex-col items-center text-center gap-4">
-                <h1 class="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight">
-                    Explorer les <span class="text-primary italic border-b-4 border-primary/20">Influenceurs</span>
-                </h1>
-                <p class="text-lg text-gray-600 dark:text-gray-400 font-medium max-w-2xl">
-                    Trouvez le partenaire idéal pour propulser votre marque et atteindre vos objectifs.
-                </p>
-            </div>
-        </div>
-
-        <!-- 2. Sticky Filtering Section -->
-        <div x-data="{ 
+    <div class="py-12 bg-background min-h-screen" x-data="{ 
             search: '', 
             platform: 'all', 
             category: 'all', 
             showFilters: false,
-            isStuck: false,
             platforms: [
                 { id: 'tiktok', name: 'TikTok', icon: 'tiktok' },
                 { id: 'instagram', name: 'Instagram', icon: 'instagram' },
                 { id: 'youtube', name: 'YouTube', icon: 'youtube' },
                 { id: 'linkedin', name: 'LinkedIn', icon: 'linkedin' }
             ]
-        }"
-            @scroll.window="isStuck = (window.pageYOffset > 100)"
-            class="sticky top-[64px] z-40 mb-12 transition-all duration-300"
-            :class="isStuck ? 'bg-white/90 dark:bg-[#1C1C1C]/90 backdrop-blur-md border-b border-gray-100 dark:border-white/10 shadow-lg py-4' : 'py-2'">
+        }">
+
+        <!-- 1. Header Section (Centered) -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
+            <div class="flex flex-col items-center text-center gap-4">
+                <h1 class="text-4xl md:text-5xl font-black text-title tracking-tight">
+                    Explorer les <span class="text-primary italic border-b-4 border-primary/30">Influenceurs</span>
+                </h1>
+                <p class="text-lg text-muted-foreground font-medium max-w-2xl">
+                    Trouvez le partenaire idéal pour propulser votre marque et atteindre vos objectifs.
+                </p>
+            </div>
+        </div>
+
+        <!-- 2. Sticky Filtering Section -->
+        <div class="mb-8 py-4">
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-[#1C1C1C] rounded-3xl border border-gray-100 dark:border-white/5 shadow-xl p-4 md:p-6 transition-all duration-300"
-                    :class="isStuck ? 'border-transparent shadow-none bg-transparent' : ''">
+                <div class="bg-card rounded-2xl border border-border shadow-xl p-3 md:p-4 transition-all duration-300">
                     <div class="flex flex-col lg:flex-row gap-4 items-center">
                         <!-- Search Bar -->
                         <div class="relative flex-1 w-full">
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-5 w-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                             </div>
                             <input type="text" x-model="search" placeholder="Rechercher par nom, pseudo ou mots-clés..."
-                                class="w-full pl-11 pr-4 py-4 rounded-2xl bg-gray-50 dark:bg-black/20 border-transparent focus:border-primary focus:ring-4 focus:ring-primary/10 text-gray-900 dark:text-white placeholder-gray-500 font-medium transition-all outline-none">
+                                class="w-full pl-11 pr-4 py-3 rounded-xl bg-background border border-border focus:border-primary focus:ring-4 focus:ring-primary/10 text-foreground placeholder-muted-foreground font-medium transition-all outline-none text-sm">
                         </div>
 
                         <!-- Platform Quick Toggle -->
-                        <div class="flex items-center gap-2 p-1 bg-gray-50 dark:bg-black/20 rounded-2xl w-full lg:w-auto overflow-x-auto no-scrollbar">
+                        <div class="flex items-center gap-2 p-1 bg-muted rounded-2xl w-full lg:w-auto overflow-x-auto no-scrollbar">
                             <button @click="platform = 'all'"
-                                :class="platform === 'all' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'"
+                                :class="platform === 'all' ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' : 'text-muted-foreground hover:text-foreground'"
                                 class="px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap">
                                 Tous
                             </button>
                             <template x-for="p in platforms" :key="p.id">
                                 <button @click="platform = p.id"
-                                    :class="platform === p.id ? 'bg-white dark:bg-[#1C1C1C] text-primary shadow-md' : 'text-gray-400 hover:text-primary'"
+                                    :class="platform === p.id ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' : 'text-muted-foreground hover:text-primary'"
                                     class="p-2.5 rounded-xl transition-all">
                                     <div class="w-6 h-6 flex items-center justify-center">
                                         <template x-if="p.id === 'tiktok'"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -77,12 +72,12 @@
 
                         <!-- Advanced Toggle -->
                         <button @click="showFilters = !showFilters"
-                            class="lg:w-auto w-full flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-gray-50 dark:bg-black/20 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-100 dark:hover:bg-white/5 transition-all outline-none">
-                            <svg class="w-5 h-5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            class="lg:w-auto w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-muted text-foreground font-bold hover:bg-muted/80 transition-all outline-none border border-border text-sm">
+                            <svg class="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                             </svg>
                             Filtres
-                            <svg class="w-4 h-4 transition-transform duration-300" :class="showFilters ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 transition-transform duration-300 text-muted-foreground" :class="showFilters ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
@@ -97,46 +92,61 @@
 
                         <!-- Category Select -->
                         <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Catégorie</label>
-                            <select x-model="category" class="w-full bg-gray-50 dark:bg-black/20 border-transparent rounded-xl py-3 px-4 text-sm font-bold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20">
-                                <option value="all">Toutes les catégories</option>
-                                <option value="lifestyle">Lifestyle & Mode</option>
-                                <option value="tech">Tech & Gaming</option>
-                                <option value="beauty">Beauté & Soins</option>
-                                <option value="fitness">Sport & Santé</option>
-                                <option value="food">Cuisine & Gastronomie</option>
+                            <label class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Catégorie</label>
+                            <select x-model="category" class="w-full bg-background border border-border rounded-xl py-3 px-4 text-sm font-bold text-foreground outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all cursor-pointer">
+                                <option value="all" class="bg-card text-foreground">Toutes les catégories</option>
+                                <option value="lifestyle" class="bg-card text-foreground">Lifestyle & Mode</option>
+                                <option value="tech" class="bg-card text-foreground">Tech & Gaming</option>
+                                <option value="beauty" class="bg-card text-foreground">Beauté & Soins</option>
+                                <option value="fitness" class="bg-card text-foreground">Sport & Santé</option>
+                                <option value="food" class="bg-card text-foreground">Cuisine & Gastronomie</option>
                             </select>
                         </div>
 
                         <!-- Followers Range -->
                         <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Abonnés</label>
-                            <select class="w-full bg-gray-50 dark:bg-black/20 border-transparent rounded-xl py-3 px-4 text-sm font-bold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20">
-                                <option>Tous les niveaux</option>
-                                <option>1K - 10K (Nano)</option>
-                                <option>10K - 50K (Micro)</option>
-                                <option>50K - 500K (Mid-tier)</option>
-                                <option>500K+ (Macro)</option>
+                            <label class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Abonnés</label>
+                            <select class="w-full bg-background border border-border rounded-xl py-3 px-4 text-sm font-bold text-foreground outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all cursor-pointer">
+                                <option class="bg-card text-foreground">Tous les niveaux</option>
+                                <option class="bg-card text-foreground">1K - 10K (Nano)</option>
+                                <option class="bg-card text-foreground">10K - 50K (Micro)</option>
+                                <option class="bg-card text-foreground">50K - 500K (Mid-tier)</option>
+                                <option class="bg-card text-foreground">500K+ (Macro)</option>
                             </select>
                         </div>
 
                         <!-- Engagement Rate -->
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Engagement</label>
-                            <div class="flex items-center gap-2">
-                                <input type="range" class="w-full accent-primary h-1.5 bg-gray-200 dark:bg-white/10 rounded-lg appearance-none cursor-pointer">
-                                <span class="text-xs font-bold text-primary min-w-[30px]">2%+</span>
+                        <div class="space-y-2" x-data="{ engagement: 2 }">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Engagement (%)</label>
+                            <div class="flex items-center gap-3">
+                                <button type="button" @click="engagement = Math.max(0, engagement - 1)"
+                                    class="w-10 h-10 rounded-xl bg-background border border-border flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all outline-none focus:ring-4 focus:ring-primary/10">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M20 12H4" />
+                                    </svg>
+                                </button>
+                                <div class="flex-1 relative">
+                                    <input type="number" x-model="engagement"
+                                        class="w-full bg-background border border-border rounded-xl py-3 px-4 text-center font-bold text-foreground outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-primary">%+</span>
+                                </div>
+                                <button type="button" @click="engagement++"
+                                    class="w-10 h-10 rounded-xl bg-background border border-border flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all outline-none focus:ring-4 focus:ring-primary/10">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4" />
+                                    </svg>
+                                </button>
                             </div>
                         </div>
 
                         <!-- Sort Options -->
                         <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Trier par</label>
-                            <select class="w-full bg-gray-50 dark:bg-black/20 border-transparent rounded-xl py-3 px-4 text-sm font-bold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-primary/20">
-                                <option>Plus récents</option>
-                                <option>Plus d'abonnés</option>
-                                <option>Meilleur engagement</option>
-                                <option>Moins chers</option>
+                            <label class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Trier par</label>
+                            <select class="w-full bg-background border border-border rounded-xl py-3 px-4 text-sm font-bold text-foreground outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all cursor-pointer">
+                                <option class="bg-card text-foreground">Plus récents</option>
+                                <option class="bg-card text-foreground">Plus d'abonnés</option>
+                                <option class="bg-card text-foreground">Meilleur engagement</option>
+                                <option class="bg-card text-foreground">Moins chers</option>
                             </select>
                         </div>
                     </div>
@@ -159,13 +169,18 @@
         <!-- 3. Influencers Grid Section -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
             @if($influencers->isEmpty())
-            <div class="bg-white dark:bg-[#1C1C1C] rounded-[2rem] p-20 border border-dashed border-gray-200 dark:border-white/10 text-center">
-                <p class="text-gray-500 font-medium italic">Aucun influenceur disponible pour le moment.</p>
+            <div class="bg-card rounded-[2rem] p-20 border border-dashed border-border text-center">
+                <p class="text-muted-foreground font-medium italic">Aucun influenceur disponible pour le moment.</p>
             </div>
             @else
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($influencers as $influencer)
-                <div class="group bg-white dark:bg-[#1C1C1C] rounded-2xl border border-gray-100 dark:border-white/5 p-5 hover:border-[#00D084] hover:ring-4 hover:ring-[#00D084]/20 transition-all duration-300 flex flex-col shadow-sm">
+                <div x-show="(search === '' || 
+                             @js(strtolower($influencer->first_name . ' ' . $influencer->last_name)).includes(search.toLowerCase()) || 
+                             @js(strtolower($influencer->influencerProfile->pseudo ?? '')).includes(search.toLowerCase())) && 
+                             (platform === 'all' || platform === @js($influencer->main_platform->value ?? ''))"
+                    x-transition
+                    class="group bg-card rounded-2xl border border-border p-5 hover:border-primary hover:ring-4 hover:ring-primary/20 transition-all duration-300 flex flex-col shadow-sm">
 
                     <div class="flex flex-col items-center text-center">
                         <div class="relative mb-4">
@@ -176,44 +191,44 @@
                                 {{ substr($influencer->first_name ?? $influencer->name ?? 'U', 0, 1) }}
                             </div>
                             @endif
-                            <div class="absolute -bottom-1 -right-1 bg-[#10B981] rounded-full border-2 border-white dark:border-[#1C1C1C] w-5 h-5 flex items-center justify-center shadow-sm z-10">
-                                <svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="absolute -bottom-1 -right-1 bg-primary rounded-full border-2 border-background w-5 h-5 flex items-center justify-center shadow-sm z-10">
+                                <svg class="w-2.5 h-2.5 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                 </svg>
                             </div>
                         </div>
 
-                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-0.5">
+                        <h3 class="text-xl font-bold text-foreground mb-0.5">
                             {{ $influencer->first_name }} {{ $influencer->last_name }}
                         </h3>
-                        <p class="text-[11px] font-bold text-gray-400 dark:text-gray-500 mb-3 uppercase tracking-widest flex items-center justify-center gap-1.5">
+                        <p class="text-[11px] font-bold text-muted-foreground mb-3 uppercase tracking-widest flex items-center justify-center gap-1.5">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                             </svg>
                             {{ $influencer->influencerProfile->pseudo ?? Str::slug($influencer->name) }}
                         </p>
 
-                        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed font-medium line-clamp-2 max-w-[240px]">
+                        <p class="text-sm text-muted-foreground leading-relaxed font-medium line-clamp-2 max-w-[240px]">
                             {{ $influencer->professional_title ?? 'Créateur de contenu innovant spécialisé.' }}
                         </p>
                     </div>
 
-                    <div class="mt-8 py-5 border-y border-gray-100 dark:border-white/5 flex items-center justify-between gap-2 px-1">
+                    <div class="mt-8 py-5 border-y border-border flex items-center justify-between gap-2 px-1">
                         <div class="flex flex-col items-center">
-                            <span class="text-[#10B981] font-black text-sm leading-none">12</span>
-                            <span class="text-[8px] font-bold text-gray-400 uppercase tracking-tighter mt-1">Campaigns</span>
+                            <span class="text-primary font-black text-sm leading-none">12</span>
+                            <span class="text-[8px] font-bold text-muted-foreground uppercase tracking-tighter mt-1">Campaigns</span>
                         </div>
                         <div class="flex flex-col items-center text-center">
-                            <span class="text-gray-900 dark:text-white font-black text-sm leading-none">45.2K</span>
-                            <span class="text-[8px] font-bold text-gray-400 uppercase tracking-tighter mt-1">Followers</span>
+                            <span class="text-foreground font-black text-sm leading-none">45.2K</span>
+                            <span class="text-[8px] font-bold text-muted-foreground uppercase tracking-tighter mt-1">Followers</span>
                         </div>
                         <div class="flex flex-col items-center text-center">
-                            <span class="text-gray-900 dark:text-white font-black text-sm leading-none">15K</span>
-                            <span class="text-[8px] font-bold text-gray-400 uppercase tracking-tighter mt-1">Vue Moy.</span>
+                            <span class="text-foreground font-black text-sm leading-none">15K</span>
+                            <span class="text-[8px] font-bold text-muted-foreground uppercase tracking-tighter mt-1">Vue Moy.</span>
                         </div>
                         <div class="flex flex-col items-center text-center">
-                            <span class="text-gray-900 dark:text-white font-black text-sm leading-none">3.2%</span>
-                            <span class="text-[8px] font-bold text-gray-400 uppercase tracking-tighter mt-1">Taux Conv.</span>
+                            <span class="text-foreground font-black text-sm leading-none">3.2%</span>
+                            <span class="text-[8px] font-bold text-muted-foreground uppercase tracking-tighter mt-1">Taux Conv.</span>
                         </div>
 
                         @if($influencer->main_platform && $influencer->profile_url)
@@ -248,15 +263,15 @@
                     </div>
 
                     <div class="mt-6 flex gap-2">
-                        <a href="{{ route('discussions.index') }}" class="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-primary text-white font-bold text-xs hover:opacity-90 transition-all shadow-sm">
-                            <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <a href="{{ route('discussions.index') }}" wire:navigate class="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold text-xs hover:opacity-90 transition-all shadow-sm">
+                            <svg class="w-3.5 h-3.5 text-primary-foreground" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
                             </svg>
                             Discuter
                         </a>
-                        <a href="{{ route('profile.public', $influencer) }}" class="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 text-xs font-bold hover:border-accent hover:text-accent transition-all group">
+                        <a href="{{ route('profile.public', $influencer) }}" wire:navigate class="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs font-bold hover:border-primary hover:text-primary transition-all group">
                             Voir profil
-                            <svg class="w-3.5 h-3.5 opacity-60 transition-colors group-hover:text-accent group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-3.5 h-3.5 opacity-60 transition-colors group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                             </svg>
                         </a>

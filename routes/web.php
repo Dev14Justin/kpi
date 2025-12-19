@@ -18,8 +18,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/influencers', function () {
         $influencers = User::query()
             ->where('role', \App\Enums\UserRole::Influencer)
-            ->latest()
+            ->with(['influencerProfile'])
+            ->inRandomOrder()
             ->get();
+
         return view('influencers', ['influencers' => $influencers]);
     })->name('influencers.index');
 
@@ -32,8 +34,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/enterprises', function () {
         $enterprises = User::query()
             ->where('role', \App\Enums\UserRole::Enterprise)
-            ->latest()
+            ->with(['enterpriseProfile'])
+            ->inRandomOrder()
             ->get();
+
         return view('enterprises.index', ['enterprises' => $enterprises]);
     })->name('enterprises.index');
 

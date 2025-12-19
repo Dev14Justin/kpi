@@ -1,9 +1,9 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h2 class="text-lg font-medium text-title">
             {{ __('Profile Information') }}
         </h2>
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        <p class="mt-1 text-sm text-muted-foreground">
             {{ __("Mettez à jour les informations de votre profil.") }}
         </p>
     </header>
@@ -27,13 +27,13 @@
                     {{ substr($user->first_name ?? $user->name ?? 'U', 0, 1) }}
                 </div>
                 @endif
-                <input type="file" id="profile_photo_path" name="profile_photo_path" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/80">
+                <input type="file" id="profile_photo_path" name="profile_photo_path" accept="image/*" class="block w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90 transition-all">
             </div>
             <x-input-error class="mt-2" :messages="$errors->get('profile_photo_path')" />
         </div>
 
         <!-- Common Info -->
-        <h3 class="text-md font-bold text-white border-b border-gray-700 pb-2 mb-4">Informations Personnelles</h3>
+        <h3 class="text-md font-bold text-title border-b border-border pb-2 mb-4">Informations Personnelles</h3>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -66,7 +66,7 @@
             @if($user->role !== \App\Enums\UserRole::Enterprise)
             <div>
                 <x-input-label for="gender" :value="__('Genre')" />
-                <select id="gender" name="gender" class="mt-1 block w-full border-gray-300 dark:border-white/10 dark:bg-[#282828] dark:text-gray-300 focus:border-accent dark:focus:border-accent focus:ring-accent dark:focus:ring-accent rounded-md shadow-sm">
+                <select id="gender" name="gender" class="mt-1 block w-full border-input bg-background text-foreground focus:border-primary focus:ring-primary/10 rounded-xl shadow-sm transition-all py-3 px-4 outline-none">
                     <option value="">Selectionner</option>
                     <option value="male" {{ old('gender', $user->gender) === 'male' ? 'selected' : '' }}>Masculin</option>
                     <option value="female" {{ old('gender', $user->gender) === 'female' ? 'selected' : '' }}>Féminin</option>
@@ -98,7 +98,7 @@
         @if($user->role !== \App\Enums\UserRole::Enterprise)
         <div class="mt-4">
             <x-input-label for="bio" :value="__('À propos de vous')" />
-            <textarea id="bio" name="bio" rows="3" class="mt-1 block w-full border-gray-300 dark:border-white/10 dark:bg-[#282828] dark:text-gray-300 focus:border-accent dark:focus:border-accent focus:ring-accent dark:focus:ring-accent rounded-md shadow-sm">{{ old('bio', $user->bio) }}</textarea>
+            <textarea id="bio" name="bio" rows="3" class="mt-1 block w-full border-input bg-background text-foreground focus:border-primary focus:ring-primary/10 rounded-xl shadow-sm transition-all py-3 px-4 outline-none">{{ old('bio', $user->bio) }}</textarea>
         </div>
 
         @if($user->role !== \App\Enums\UserRole::Influencer)
@@ -129,7 +129,7 @@
 
                 <div>
                     <x-input-label for="niche" :value="__('Niche')" />
-                    <select id="niche" name="niche" x-model="niche" class="mt-1 block w-full border-gray-300 dark:border-white/10 dark:bg-[#282828] dark:text-gray-300 focus:border-accent dark:focus:border-accent focus:ring-accent dark:focus:ring-accent rounded-md shadow-sm">
+                    <select id="niche" name="niche" x-model="niche" class="mt-1 block w-full border-input bg-background text-foreground focus:border-primary focus:ring-primary/10 rounded-xl shadow-sm transition-all py-3 px-4 outline-none">
                         <option value="">Selectionner</option>
                         @foreach(['Education', 'Humour/Comédie', 'Cuisine/Food', 'Art/Design', 'Technologie', 'Voyage', 'Mode/Beauté', 'Fitness/Sport', 'Gaming', 'Musique', 'Danse', 'Animaux', 'Lifestyle', 'Business/Finance', 'Développement Personnel', 'Actualités/Politique', 'Science'] as $item)
                         <option value="{{ $item }}">{{ $item }}</option>
@@ -195,7 +195,7 @@
             </div>
             <div class="mt-4">
                 <x-input-label for="description" :value="__('À propos de l\'Entreprise')" />
-                <textarea id="description" name="description" rows="3" class="mt-1 block w-full border-gray-300 dark:border-white/10 dark:bg-[#282828] dark:text-gray-300 focus:border-accent dark:focus:border-accent focus:ring-accent dark:focus:ring-accent rounded-md shadow-sm">{{ old('description', $user->enterpriseProfile?->description) }}</textarea>
+                <textarea id="description" name="description" rows="3" class="mt-1 block w-full border-input bg-background text-foreground focus:border-primary focus:ring-primary/10 rounded-xl shadow-sm transition-all py-3 px-4 outline-none">{{ old('description', $user->enterpriseProfile?->description) }}</textarea>
             </div>
 
             <!-- Réseaux Sociaux Entreprise -->
@@ -227,8 +227,8 @@
                 'show_professional_title' => 'Afficher le titre professionnel',
                 'show_location' => 'Afficher la localisation'
                 ] as $key => $label)
-                <div class="flex items-center justify-between p-4 bg-white dark:bg-[#282828] rounded-xl border border-gray-200 dark:border-white/5 transition-colors">
-                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ $label }}</span>
+                <div class="flex items-center justify-between p-4 bg-muted rounded-xl border border-border transition-colors">
+                    <span class="text-sm font-medium text-foreground">{{ $label }}</span>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="hidden" name="privacy_settings[{{ $key }}]" value="0">
                         <input type="checkbox" name="privacy_settings[{{ $key }}]" value="1"

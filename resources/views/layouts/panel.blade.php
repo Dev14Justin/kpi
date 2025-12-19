@@ -1,4 +1,4 @@
-<x-app-layout :hideFooter="true">
+<x-app-layout :hide-footer="true">
     <div class="flex min-h-screen" x-data="{ sidebarOpen: true, mobileSidebarOpen: false }">
         <!-- Mobile Sidebar Overlay -->
         <div x-show="mobileSidebarOpen"
@@ -13,15 +13,12 @@
 
         <!-- Sidebar Desktop -->
         <aside :class="sidebarOpen ? 'w-64' : 'w-20'"
-            class="fixed inset-y-0 left-0 top-16 z-30 bg-white dark:bg-[#1C1C1C] border-r border-gray-200 dark:border-white/5 transition-all duration-300 ease-in-out hidden lg:flex flex-col">
+            class="fixed inset-y-0 left-0 top-16 z-30 bg-card border-r border-border transition-all duration-300 ease-in-out hidden lg:flex flex-col">
 
             <!-- Sidebar Header -->
-            <div class="h-14 flex items-center justify-between px-3 border-b border-gray-200 dark:border-white/5">
-                <div x-show="sidebarOpen" x-transition class="flex items-center gap-3 px-4 text-gray-500 dark:text-gray-400">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                    <span class="text-[10px] font-bold uppercase tracking-widest">Menu</span>
+            <div class="h-14 flex items-center justify-between px-3 border-b border-border">
+                <div x-show="sidebarOpen" x-transition class="flex items-center gap-3 px-4 text-muted-foreground">
+                    <span class="text-[18px] font-bold text-foreground tracking-widest">Dashboard</span>
                 </div>
                 <button @click="sidebarOpen = !sidebarOpen"
                     class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 text-gray-500 dark:text-gray-400 transition">
@@ -44,16 +41,16 @@
             </nav>
 
             <!-- User Section -->
-            <div class="p-3 border-t border-gray-200 dark:border-white/5 space-y-3" x-show="sidebarOpen" x-transition>
-                <a href="{{ route('profile.show') }}"
-                    class="flex items-center justify-center gap-2 w-full py-2 px-4 text-center text-xs border border-gray-200 dark:border-white/10 rounded-xl text-gray-700 dark:text-gray-300 hover:text-primary hover:border-primary transition font-bold bg-white dark:bg-[#282828] shadow-sm">
+            <div class="p-3 border-t border-border space-y-3" x-show="sidebarOpen" x-transition>
+                <a href="{{ route('profile.show') }}" wire:navigate
+                    class="btn-secondary w-full py-2 px-4 shadow-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                     </svg>
                     Mon Profil
                 </a>
 
-                <div class="flex items-center gap-3 p-2 rounded-2xl bg-gray-50 dark:bg-[#282828] border border-gray-100 dark:border-white/5">
+                <div class="flex items-center gap-3 p-2 rounded-2xl bg-background border border-border">
                     @if(Auth::user()->profile_photo_path)
                     <img src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}" alt="Photo" class="w-9 h-9 rounded-xl object-cover flex-shrink-0">
                     @else
@@ -62,8 +59,8 @@
                     </div>
                     @endif
                     <div class="flex-1 min-w-0">
-                        <p class="text-xs font-bold text-gray-900 dark:text-white truncate">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
-                        <p class="text-[10px] text-gray-500 dark:text-gray-400 truncate opacity-70">{{ Auth::user()->email }}</p>
+                        <p class="text-xs font-bold text-foreground truncate">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
+                        <p class="text-[10px] text-muted-foreground truncate opacity-70">{{ Auth::user()->email }}</p>
                     </div>
                 </div>
 
@@ -88,7 +85,7 @@
             x-transition:leave="transition ease-in duration-300"
             x-transition:leave-start="translate-x-0"
             x-transition:leave-end="-translate-x-full"
-            class="fixed inset-y-0 left-0 top-16 z-50 w-64 bg-white dark:bg-[#1C1C1C] border-r border-gray-200 dark:border-white/5 lg:hidden flex flex-col">
+            class="fixed inset-y-0 left-0 top-16 z-50 w-64 bg-card border-r border-border lg:hidden flex flex-col">
 
             <!-- Menu Mobile -->
             <nav class="flex-1 px-4 py-4 space-y-0.5 overflow-y-auto">
@@ -101,13 +98,13 @@
             </nav>
 
             <!-- User Section Mobile -->
-            <div class="p-4 border-t border-gray-200 dark:border-white/5 space-y-3">
-                <a href="{{ route('profile.show') }}"
-                    class="block w-full py-2 px-4 text-center text-xs border border-gray-200 dark:border-white/10 rounded-xl text-gray-700 dark:text-gray-300 font-bold bg-white dark:bg-[#282828] shadow-sm">
+            <div class="p-4 border-t border-border space-y-3">
+                <a href="{{ route('profile.show') }}" wire:navigate
+                    class="block w-full py-2 px-4 text-center text-xs border border-border rounded-xl text-foreground font-bold bg-card shadow-sm">
                     Mon Profil
                 </a>
 
-                <div class="flex items-center gap-3 p-2 rounded-2xl bg-gray-50 dark:bg-[#282828] border border-gray-100 dark:border-white/5">
+                <div class="flex items-center gap-3 p-2 rounded-2xl bg-background border border-border">
                     @if(Auth::user()->profile_photo_path)
                     <img src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}" alt="Photo" class="w-9 h-9 rounded-xl object-cover flex-shrink-0">
                     @else
@@ -116,8 +113,8 @@
                     </div>
                     @endif
                     <div class="flex-1 min-w-0">
-                        <p class="text-xs font-bold text-gray-900 dark:text-white truncate">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
-                        <p class="text-[10px] text-gray-500 font-medium truncate opacity-70">{{ Auth::user()->email }}</p>
+                        <p class="text-xs font-bold text-foreground truncate">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
+                        <p class="text-[10px] text-muted-foreground font-medium truncate opacity-70">{{ Auth::user()->email }}</p>
                     </div>
                 </div>
 
@@ -136,9 +133,9 @@
         <!-- Main Content Wrapper -->
         <div :class="sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'" class="flex-1 transition-all duration-300">
             <!-- Mobile Menu Button (visible only on mobile) -->
-            <div class="lg:hidden sticky top-16 z-20 bg-white dark:bg-[#1C1C1C] border-b border-gray-200 dark:border-white/5 px-4 py-3">
-                <button @click="mobileSidebarOpen = true" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5">
-                    <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="lg:hidden sticky top-16 z-20 bg-card border-b border-border px-4 py-3">
+                <button @click="mobileSidebarOpen = true" class="p-2 rounded-lg hover:bg-muted/50">
+                    <svg class="w-6 h-6 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>

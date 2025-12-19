@@ -1,80 +1,75 @@
-<footer class="bg-white dark:bg-[#1C1C1C] border-t border-gray-100 dark:border-white/5 transition-colors duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div class="xl:grid xl:grid-cols-3 xl:gap-8">
-            <!-- Brand -->
-            <div class="space-y-8 xl:col-span-1">
-                <a href="{{ route('influencers.index') }}" class="flex items-center gap-2">
-                    <div class="h-9 w-9 rounded-xl bg-[var(--kpihub-primary)] flex items-center justify-center font-black text-[var(--kpihub-ink)]">K</div>
-                    <span class="text-xl font-bold text-[var(--kpihub-ink)] dark:text-white">KpiHub</span>
+<footer class="bg-card border-t border-border transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-start">
+            <!-- 1. Brand Section -->
+            <div class="space-y-4 text-left">
+                <a href="{{ route('influencers.index') }}" class="flex items-center gap-2 group">
+                    <div class="h-9 w-9 rounded-xl bg-primary flex items-center justify-center font-black text-primary-foreground transition-transform group-hover:scale-105">K</div>
+                    <span class="text-xl font-bold text-foreground">KpiHub</span>
                 </a>
-                <p class="text-gray-500 dark:text-gray-400 text-sm leading-6 max-w-sm">
-                    La plateforme ultime pour connecter marques et influenceurs. Pilotez vos campagnes, mesurez vos performances et maximisez votre impact.
+                <p class="text-muted-foreground text-sm leading-6 max-w-xs">
+                    La plateforme qui connecte marques et influenceurs. Pilotez vos campagnes, mesurez vos performances et maximisez votre impact.
                 </p>
-                <div class="flex space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-[var(--kpihub-primary)] transition">
-                        <span class="sr-only">Facebook</span>
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+            </div>
+
+            <!-- 2. Community Section (Centered) -->
+            <div class="space-y-4 md:text-center">
+                <h3 class="text-xs font-black uppercase tracking-widest text-foreground">Réseaux Sociaux</h3>
+                <div class="flex flex-col md:items-center gap-3">
+                    <a href="#" class="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group md:justify-center">
+                        <span>À propos</span>
+                        <svg class="w-3.5 h-3.5 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-[var(--kpihub-accent)] transition">
-                        <span class="sr-only">Instagram</span>
-                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465C9.673 2.013 10.03 2 12.315 2zm-3.196 8.45a3.796 3.796 0 115.392 5.392 3.796 3.796 0 01-5.392-5.392zm5.793-2.352a1.034 1.034 0 111.46 1.46 1.034 1.034 0 01-1.46-1.46z" clip-rule="evenodd" />
-                        </svg>
-                    </a>
+                    <div class="flex items-center gap-4 pt-1 md:justify-center">
+                        <a href="#" class="text-muted-foreground hover:text-primary transition-all hover:scale-110" title="Instagram">
+                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-muted-foreground hover:text-primary transition-all hover:scale-110" title="TikTok">
+                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-muted-foreground hover:text-primary transition-all hover:scale-110" title="Facebook">
+                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-muted-foreground hover:text-primary transition-all hover:scale-110" title="LinkedIn">
+                            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <!-- Links -->
-            <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-                <div class="md:grid md:grid-cols-2 md:gap-8">
-                    <div>
-                        <h3 class="text-sm font-semibold leading-6 text-[var(--kpihub-ink)] dark:text-white uppercase tracking-wider">Produit</h3>
-                        <ul role="list" class="mt-6 space-y-4">
-                            <li>
-                                <a href="{{ route('influencers.index') }}" class="text-sm leading-6 text-gray-500 dark:text-gray-400 hover:text-[var(--kpihub-primary)] transition">Influenceurs</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('ranking.index') }}" class="text-sm leading-6 text-gray-500 dark:text-gray-400 hover:text-[var(--kpihub-primary)] transition">Classement</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('enterprises.index') }}" class="text-sm leading-6 text-gray-500 dark:text-gray-400 hover:text-[var(--kpihub-primary)] transition">Entreprises</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="mt-10 md:mt-0">
-                        <h3 class="text-sm font-semibold leading-6 text-[var(--kpihub-ink)] dark:text-white uppercase tracking-wider">Support</h3>
-                        <ul role="list" class="mt-6 space-y-4">
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-500 dark:text-gray-400 hover:text-[var(--kpihub-primary)] transition">Centre d'aide</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-500 dark:text-gray-400 hover:text-[var(--kpihub-primary)] transition">Contact</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-500 dark:text-gray-400 hover:text-[var(--kpihub-primary)] transition">FAQ</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="md:grid md:grid-cols-2 md:gap-8">
-                    <div>
-                        <h3 class="text-sm font-semibold leading-6 text-[var(--kpihub-ink)] dark:text-white uppercase tracking-wider">Légal</h3>
-                        <ul role="list" class="mt-6 space-y-4">
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-500 dark:text-gray-400 hover:text-[var(--kpihub-primary)] transition">Confidentialité</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-500 dark:text-gray-400 hover:text-[var(--kpihub-primary)] transition">CGU</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            <!-- 3. Legal Section (Right Aligned) -->
+            <div class="space-y-4 md:text-right">
+                <h3 class="text-xs font-black uppercase tracking-widest text-foreground">Mention Légal</h3>
+                <ul role="list" class="space-y-3">
+                    <li><a href="#" class="text-sm text-muted-foreground hover:text-primary transition-colors">Politique d'utilisation</a></li>
+                    <li><a href="#" class="text-sm text-muted-foreground hover:text-primary transition-colors">Confidentialité</a></li>
+                    <li><a href="#" class="text-sm text-muted-foreground hover:text-primary transition-colors">CGU</a></li>
+                </ul>
             </div>
         </div>
-        <div class="mt-16 border-t border-gray-100 dark:border-white/5 pt-8 sm:mt-20 lg:mt-24">
-            <p class="text-xs leading-5 text-gray-500 dark:text-gray-400">&copy; {{ date('Y') }} KpiHub. Tous droits réservés.</p>
+
+        <!-- Bottom Bar -->
+        <div class="mt-10 pt-6 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-[10px] uppercase font-bold tracking-widest text-muted-foreground/60">
+                &copy; {{ date('Y') }} KpiHub. Tous droits réservés.
+            </p>
+            <p class="text-[10px] uppercase font-bold tracking-widest text-muted-foreground/60">
+                Propulsé par <a href="https://Optix.com" class="text-primary hover:underline decoration-2 underline-offset-4">Optix</a>
+            </p>
         </div>
     </div>
 </footer>

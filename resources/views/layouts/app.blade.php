@@ -16,13 +16,16 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100 dark:bg-[#121212]">
+<body class="font-sans antialiased" x-data>
+    {{-- Global Loading Progress Bar for wire:navigate --}}
+    <div wire:loading.delay.class="livewire-progress-bar" class="fixed top-0 left-0 right-0 h-1 z-[100] pointer-events-none"></div>
+
+    <div class="min-h-screen bg-background">
         @include('layouts.navigation')
 
         <!-- Page Heading -->
         @isset($header)
-        <header class="bg-white dark:bg-gray-800 shadow">
+        <header class="bg-card shadow-sm border-b border-border">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 {{ $header }}
             </div>
@@ -34,7 +37,7 @@
             {{ $slot }}
         </main>
 
-        @if(!isset($hideFooter))
+        @if(!($hideFooter ?? false) && $attributes->get('hide-footer') !== 'true' && $attributes->get('hideFooter') !== 'true')
         @include('layouts.footer')
         @endif
     </div>
