@@ -93,4 +93,16 @@ class User extends Authenticatable implements FilamentUser
     {
         return $panel->getId() === 'admin' && $this->email === 'admin@kpihub.test';
     }
+
+    public function campaigns()
+    {
+        return $this->hasMany(Campaign::class);
+    }
+
+    public function participations()
+    {
+        return $this->belongsToMany(Campaign::class)
+            ->withPivot('status')
+            ->withTimestamps();
+    }
 }

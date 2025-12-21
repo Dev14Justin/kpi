@@ -46,6 +46,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('campaigns.index');
     })->name('campaigns.index');
 
+    Route::get('/campaigns/{campaign}', function (\App\Models\Campaign $campaign) {
+        return view('campaigns.show', ['campaign' => $campaign]);
+    })->name('campaigns.show')->middleware('can:view,campaign');
+
     Route::get('/portfolio', function () {
         return view('portfolio.index');
     })->name('portfolio.index');
