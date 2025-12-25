@@ -310,7 +310,7 @@ KPIs et graphiques interactifs
   - Horizontal : px-4, md:px-8
 
 ## 5. Icônes
-Utiliser lucide-react (modernes, légères, accessibles)
+Utiliser lucide-react (modernes, légères, accessibles) 
 
 ## 6. Exemples d'application
 

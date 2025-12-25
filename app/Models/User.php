@@ -3,10 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Enums\UserRole;
 use App\Enums\MainPlatform;
+use App\Enums\UserRole;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -15,7 +16,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasUuids;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +24,7 @@ class User extends Authenticatable implements FilamentUser
      * @var list<string>
      */
     protected $fillable = [
+        'uuid',
         'name',
         'first_name',
         'last_name',
@@ -41,6 +43,24 @@ class User extends Authenticatable implements FilamentUser
         'social_links',
         'privacy_settings',
     ];
+
+    /**
+     * Get the columns that should receive a unique identifier.
+     *
+     * @return array<int, string>
+     */
+    public function uniqueIds(): array
+    {
+        return ['uuid'];
+    }
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -89,6 +109,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->role->isAdmin();
     }
 
+    public function isSuperAdmin(): bool
+    {
+        return $this->isAdmin();
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return $panel->getId() === 'admin' && $this->email === 'admin@kpihub.test';
@@ -104,5 +129,10 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsToMany(Campaign::class)
             ->withPivot('status')
             ->withTimestamps();
+    }
+
+    public function getPendingInvitationsCountAttribute(): int
+    {
+        return $this->participations()->wherePivot('status', 'pending')->count();
     }
 }

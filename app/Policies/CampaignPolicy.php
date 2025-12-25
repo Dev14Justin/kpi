@@ -35,8 +35,17 @@ class CampaignPolicy
      */
     public function update(User $user, Campaign $campaign): bool
     {
-        // Only creator can update for now
-        return $user->id === $campaign->user_id;
+        // Creator can update
+        if ($user->id === $campaign->user_id) {
+            return true;
+        }
+
+        // Accepted influencers can also update
+        return $user->role === UserRole::Influencer &&
+            $campaign->participants()
+            ->where('user_id', $user->id)
+            ->wherePivot('status', 'accepted')
+            ->exists();
     }
 
     /**
@@ -44,6 +53,15 @@ class CampaignPolicy
      */
     public function delete(User $user, Campaign $campaign): bool
     {
+        return $user->id === $campaign->user_id;
+    }
+
+    /**
+     * Determine whether the user can manage participants.
+     */
+    public function manageParticipants(User $user, Campaign $campaign): bool
+    {
+        // Only owner can invite/remove people
         return $user->id === $campaign->user_id;
     }
 }

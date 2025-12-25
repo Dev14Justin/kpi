@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\CampaignStatus;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,25 +10,48 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Campaign extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $fillable = [
         'user_id',
+        'uuid',
         'title',
+        'slug',
+        'short_description',
         'description',
-        'budget',
-        'status',
-        'start_date',
-        'end_date',
+        'content_type',
+        'platforms',
+        'content_links',
+        'lead_form_settings',
+        'is_active',
     ];
+
+    /**
+     * Get the columns that should receive a unique identifier.
+     *
+     * @return array<int, string>
+     */
+    public function uniqueIds(): array
+    {
+        return ['uuid'];
+    }
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
 
     protected function casts(): array
     {
         return [
-            'status' => CampaignStatus::class,
-            'budget' => 'decimal:2',
-            'start_date' => 'date',
-            'end_date' => 'date',
+            'content_type' => \App\Enums\ContentType::class,
+            'platforms' => 'array',
+            'content_links' => 'array',
+            'lead_form_settings' => 'array',
+            'is_active' => 'boolean',
         ];
     }
 
@@ -42,5 +65,10 @@ class Campaign extends Model
         return $this->belongsToMany(User::class)
             ->withPivot('status')
             ->withTimestamps();
+    }
+
+    public function leads(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Lead::class);
     }
 }

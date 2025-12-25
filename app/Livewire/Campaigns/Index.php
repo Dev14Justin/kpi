@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Campaigns;
 
-use App\Enums\CampaignStatus;
 use App\Enums\UserRole;
 use App\Models\Campaign;
 use App\Models\User;
@@ -18,25 +17,23 @@ class Index extends Component
 
     // Form inputs
     public $title = '';
-    public $description = '';
-    public $budget = '';
-    public $start_date = '';
-    public $end_date = '';
-    public $invited_enterprise_ids = [];
+
+    public $short_description = '';
+
+    public $content_type = '';
+
+    public $platforms = [];
 
     protected $rules = [
         'title' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'budget' => 'nullable|numeric|min:0',
-        'start_date' => 'nullable|date',
-        'end_date' => 'nullable|date|after_or_equal:start_date',
-        'invited_enterprise_ids' => 'array',
-        'invited_enterprise_ids.*' => 'exists:users,id',
+        'short_description' => 'required|string|max:255',
+        'content_type' => 'required|string',
+        'platforms' => 'required|array|min:1',
     ];
 
     public function openCreateModal()
     {
-        $this->reset(['title', 'description', 'budget', 'start_date', 'end_date', 'invited_enterprise_ids']);
+        $this->reset(['title', 'short_description', 'content_type', 'platforms']);
         $this->showCreateModal = true;
     }
 
@@ -49,41 +46,66 @@ class Index extends Component
     {
         // Check authorization
         if (Auth::user()->role === UserRole::Enterprise) {
-            session()->flash('error', "Les entreprises ne peuvent pas créer de campagnes.");
+            session()->flash('error', 'Les entreprises ne peuvent pas créer de campagnes.');
+
             return;
         }
 
         $this->validate();
 
-        $campaign = Auth::user()->campaigns()->create([
+        Auth::user()->campaigns()->create([
             'title' => $this->title,
-            'description' => $this->description,
-            'budget' => $this->budget ?: null,
-            'status' => CampaignStatus::Draft,
-            'start_date' => $this->start_date ?: null,
-            'end_date' => $this->end_date ?: null,
+            'short_description' => $this->short_description,
+            'content_type' => $this->content_type,
+            'platforms' => $this->platforms,
         ]);
 
-        if (!empty($this->invited_enterprise_ids)) {
-            $campaign->participants()->attach($this->invited_enterprise_ids);
-        }
-
         $this->showCreateModal = false;
-        $this->reset(['title', 'description', 'budget', 'start_date', 'end_date', 'invited_enterprise_ids']);
+        $this->reset(['title', 'short_description', 'content_type', 'platforms']);
 
         session()->flash('message', 'Campagne créée avec succès !');
+    }
+
+    public function acceptInvitation(Campaign $campaign)
+    {
+        $user = Auth::user();
+        $user->participations()->updateExistingPivot($campaign->id, ['status' => 'accepted']);
+        session()->flash('message', 'Vous avez accepté la collaboration.');
+        $this->dispatch('refresh-campaigns');
+    }
+
+    public function rejectInvitation(Campaign $campaign)
+    {
+        $user = Auth::user();
+        $user->participations()->detach($campaign->id);
+        session()->flash('message', 'Vous avez refusé la collaboration.');
+        $this->dispatch('refresh-campaigns');
     }
 
     public function render()
     {
         $user = Auth::user();
+        $pendingInvitations = collect();
+
+        $pendingInvitations = $user->participations()
+            ->wherePivot('status', 'pending')
+            ->get();
 
         // If enterprise, see campaigns they are invited to.
-        // If user/influencer, see campaigns they created.
+        // If user/influencer, see campaigns they created OR were invited to and accepted
         if ($user->role === UserRole::Enterprise) {
-            $campaigns = $user->participations()->latest()->paginate(10);
+            $campaigns = $user->participations()
+                ->wherePivot('status', 'accepted')
+                ->latest()
+                ->paginate(10);
         } else {
-            $campaigns = $user->campaigns()->latest()->paginate(10);
+            // Influencer/User sees owned campaigns + accepted participations
+            $ownedCampaignIds = $user->campaigns()->pluck('id');
+            $acceptedParticipationIds = $user->participations()->wherePivot('status', 'accepted')->pluck('campaign_id');
+
+            $campaigns = \App\Models\Campaign::whereIn('id', $ownedCampaignIds->concat($acceptedParticipationIds))
+                ->latest()
+                ->paginate(10);
         }
 
         $enterprises = User::where('role', UserRole::Enterprise)->get();
@@ -91,6 +113,7 @@ class Index extends Component
         return view('livewire.campaigns.index', [
             'campaigns' => $campaigns,
             'enterprises' => $enterprises,
+            'pendingInvitations' => $pendingInvitations,
         ]);
     }
 }

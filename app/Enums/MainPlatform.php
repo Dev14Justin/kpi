@@ -8,6 +8,8 @@ enum MainPlatform: string
     case Instagram = 'instagram';
     case Youtube = 'youtube';
     case Linkedin = 'linkedin';
+    case Facebook = 'facebook';
+    case X = 'x';
 
     /**
      * @return list<string>
@@ -24,6 +26,8 @@ enum MainPlatform: string
             self::Instagram => 'Instagram',
             self::Youtube => 'YouTube',
             self::Linkedin => 'LinkedIn',
+            self::Facebook => 'Facebook',
+            self::X => 'X (Twitter)',
         };
     }
 }

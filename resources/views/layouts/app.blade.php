@@ -12,11 +12,13 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    @livewireStyles
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
 </head>
 
-<body class="font-sans antialiased" x-data>
+<body class="font-sans antialiased">
     {{-- Global Loading Progress Bar for wire:navigate --}}
     <div wire:loading.delay.class="livewire-progress-bar" class="fixed top-0 left-0 right-0 h-1 z-[100] pointer-events-none"></div>
 
@@ -41,6 +43,9 @@
         @include('layouts.footer')
         @endif
     </div>
+
+    @livewireScripts
+    @stack('scripts')
 </body>
 
 </html>

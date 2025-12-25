@@ -1,7 +1,8 @@
+import.meta.glob([
+    '../images/**',
+]);
 import './bootstrap';
 
-import Alpine from 'alpinejs';
-
-window.Alpine = Alpine;
-
-Alpine.start();
+// Alpine is now handled by Livewire 3 via @livewireScripts in layouts/app.blade.php
+// to avoid multiple instance conflicts.
+// Do not import Alpine here.

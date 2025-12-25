@@ -50,6 +50,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('campaigns.show', ['campaign' => $campaign]);
     })->name('campaigns.show')->middleware('can:view,campaign');
 
+    Route::get('/campaigns/{campaign}/complete', function (\App\Models\Campaign $campaign) {
+        return view('campaigns.complete', ['campaign' => $campaign]);
+    })->name('campaigns.complete')->middleware('can:update,campaign');
+
     Route::get('/portfolio', function () {
         return view('portfolio.index');
     })->name('portfolio.index');
@@ -66,10 +70,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/u/{user}', [ProfileController::class, 'publicShow'])->name('profile.public');
 });
 
+// Public Lead Form
+Route::get('/form/{slug}', function (string $slug) {
+    $campaign = \App\Models\Campaign::where('slug', $slug)->where('is_active', true)->firstOrFail();
+
+    return view('campaigns.public-form', ['campaign' => $campaign]);
+})->name('campaigns.public-form');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
