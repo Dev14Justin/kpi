@@ -12,12 +12,16 @@ class EnterpriseProfile extends Model
 
     protected $fillable = [
         'user_id',
+        'manager_first_name',
+        'manager_last_name',
         'company_name',
         'company_email',
+        'manager_phone',
         'company_phone',
         'company_country',
         'company_city',
         'industry',
+        'industry_other',
         'description',
         'website',
         'social_links',

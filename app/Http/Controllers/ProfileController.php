@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -74,6 +74,15 @@ class ProfileController extends Controller
             $user->influencerProfile()->updateOrCreate(
                 ['user_id' => $user->id],
                 [
+                    'first_name' => $validated['first_name'] ?? null,
+                    'last_name' => $validated['last_name'] ?? null,
+                    'email' => $validated['email'] ?? null,
+                    'gender' => $validated['gender'] ?? null,
+                    'professional_title' => $validated['professional_title'] ?? null,
+                    'country' => $validated['country'] ?? null,
+                    'city' => $validated['city'] ?? null,
+                    'phone' => $validated['phone'] ?? null,
+                    'bio' => $validated['bio'] ?? null,
                     'pseudo' => $validated['pseudo'] ?? null,
                     'niche' => $validated['niche'] ?? null,
                     'niche_other' => $validated['niche_other'] ?? null,
@@ -84,12 +93,16 @@ class ProfileController extends Controller
             $user->enterpriseProfile()->updateOrCreate(
                 ['user_id' => $user->id],
                 [
+                    'manager_first_name' => $validated['first_name'] ?? null,
+                    'manager_last_name' => $validated['last_name'] ?? null,
+                    'manager_phone' => $validated['manager_phone'] ?? null,
                     'company_name' => $validated['company_name'] ?? null,
                     'company_email' => $validated['company_email'] ?? null,
                     'company_phone' => $validated['company_phone'] ?? null,
                     'company_country' => $validated['company_country'] ?? null,
                     'company_city' => $validated['company_city'] ?? null,
                     'industry' => $validated['industry'] ?? null,
+                    'industry_other' => $validated['industry_other'] ?? null,
                     'description' => $validated['description'] ?? null,
                     'website' => $validated['website'] ?? null,
                     'social_links' => $validated['enterprise_social_links'] ?? null,

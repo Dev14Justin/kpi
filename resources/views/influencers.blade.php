@@ -1,19 +1,21 @@
 <x-app-layout>
-    <div class="py-12 bg-background min-h-screen" x-data="{ 
+    <div class="py-6 md:py-12 bg-background min-h-screen" x-data="{ 
             search: '', 
             platform: 'all', 
-            category: 'all', 
+            niche: 'all', 
             showFilters: false,
             platforms: [
                 { id: 'tiktok', name: 'TikTok', icon: 'tiktok' },
                 { id: 'instagram', name: 'Instagram', icon: 'instagram' },
                 { id: 'youtube', name: 'YouTube', icon: 'youtube' },
-                { id: 'linkedin', name: 'LinkedIn', icon: 'linkedin' }
+                { id: 'linkedin', name: 'LinkedIn', icon: 'linkedin' },
+                { id: 'facebook', name: 'Facebook', icon: 'facebook' },
+                { id: 'x', name: 'X', icon: 'x' }
             ]
         }">
 
         <!-- 1. Header Section (Centered) -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 md:mb-14">
             <div class="flex flex-col items-center text-center gap-4">
                 <h1 class="text-4xl md:text-5xl font-black text-title tracking-tight">
                     Explorer les <span class="text-primary italic border-b-4 border-primary/30">Influenceurs</span>
@@ -25,7 +27,7 @@
         </div>
 
         <!-- 2. Sticky Filtering Section -->
-        <div class="mb-8 py-4">
+        <div class="mb-4 md:mb-8 py-2 md:py-4">
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="bg-card rounded-2xl border border-border shadow-xl p-3 md:p-4 transition-all duration-300">
@@ -53,17 +55,30 @@
                                     :class="platform === p.id ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' : 'text-muted-foreground hover:text-primary'"
                                     class="p-2.5 rounded-xl transition-all">
                                     <div class="w-6 h-6 flex items-center justify-center">
-                                        <template x-if="p.id === 'tiktok'"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.03 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96a6.66 6.66 0 014.12-1.55c.02 1.48.01 2.96.02 4.44-1.14.01-2.34.42-3.15 1.25-.85.83-1.16 2.05-1.13 3.22.02 1.05.54 2.11 1.34 2.79.82.72 1.96 1.05 3.04.88 1.14-.11 2.19-.85 2.75-1.85.39-.68.53-1.48.51-2.27-.02-3.85-.01-7.7-.02-11.55z" />
+                                        <template x-if="p.id === 'tiktok'"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
                                             </svg></template>
-                                        <template x-if="p.id === 'instagram'"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                        <template x-if="p.id === 'instagram'"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                                                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
                                             </svg></template>
-                                        <template x-if="p.id === 'youtube'"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                                        <template x-if="p.id === 'youtube'"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 2-2h15a2 2 0 0 1 2 2 24.12 24.12 0 0 1 0 10 2 2 0 0 1-2 2h-15a2-2-0 01-2-2Z" />
+                                                <path d="m10 15 5-3-5-3z" />
                                             </svg></template>
-                                        <template x-if="p.id === 'linkedin'"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                                        <template x-if="p.id === 'linkedin'"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                                                <rect width="4" height="12" x="2" y="9" />
+                                                <circle cx="4" cy="4" r="2" />
+                                            </svg></template>
+                                        <template x-if="p.id === 'facebook'"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                                            </svg></template>
+                                        <template x-if="p.id === 'x'"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M4 4l11.733 16h4.267l-11.733-16h-4.267z" />
+                                                <path d="M4 20l6.768-6.768" />
+                                                <path d="M13.232 10.768l6.768-6.768" />
                                             </svg></template>
                                     </div>
                                 </button>
@@ -90,16 +105,15 @@
                         x-transition:enter-end="opacity-100 translate-y-0"
                         class="mt-6 pt-6 border-t border-gray-100 dark:border-white/5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-                        <!-- Category Select -->
+                        <!-- Niche Select -->
                         <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Catégorie</label>
-                            <select x-model="category" class="w-full bg-background border border-border rounded-xl py-3 px-4 text-sm font-bold text-foreground outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all cursor-pointer">
-                                <option value="all" class="bg-card text-foreground">Toutes les catégories</option>
-                                <option value="lifestyle" class="bg-card text-foreground">Lifestyle & Mode</option>
-                                <option value="tech" class="bg-card text-foreground">Tech & Gaming</option>
-                                <option value="beauty" class="bg-card text-foreground">Beauté & Soins</option>
-                                <option value="fitness" class="bg-card text-foreground">Sport & Santé</option>
-                                <option value="food" class="bg-card text-foreground">Cuisine & Gastronomie</option>
+                            <label class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Par Niche</label>
+                            <select x-model="niche" class="w-full bg-background border border-border rounded-xl py-3 px-4 text-sm font-bold text-foreground outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all cursor-pointer">
+                                <option value="all" class="bg-card text-foreground">Toutes les niches</option>
+                                @foreach(['Education', 'Humour/Comédie', 'Cuisine/Food', 'Art/Design', 'Technologie', 'Voyage', 'Mode/Beauté', 'Fitness/Sport', 'Gaming', 'Musique', 'Danse', 'Animaux', 'Lifestyle', 'Business/Finance', 'Développement Personnel', 'Actualités/Politique', 'Science'] as $item)
+                                <option value="{{ $item }}" class="bg-card text-foreground">{{ $item }}</option>
+                                @endforeach
+                                <option value="Autre" class="bg-card text-foreground">Autre</option>
                             </select>
                         </div>
 
@@ -176,9 +190,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($influencers as $influencer)
                 <div x-show="(search === '' || 
+                             @js(strtolower($influencer->influencerProfile->first_name ?? '') . ' ' . strtolower($influencer->influencerProfile->last_name ?? '')).includes(search.toLowerCase()) || 
                              @js(strtolower($influencer->first_name . ' ' . $influencer->last_name)).includes(search.toLowerCase()) || 
                              @js(strtolower($influencer->influencerProfile->pseudo ?? '')).includes(search.toLowerCase())) && 
-                             (platform === 'all' || platform === @js($influencer->main_platform->value ?? ''))"
+                             (platform === 'all' || platform === @js($influencer->influencerProfile->main_platform->value ?? $influencer->main_platform->value ?? '')) &&
+                             (niche === 'all' || niche === @js($influencer->influencerProfile->niche ?? ''))"
                     x-transition
                     class="group bg-card rounded-2xl border border-border p-5 hover:border-primary hover:ring-4 hover:ring-primary/20 transition-all duration-300 flex flex-col shadow-sm">
 
@@ -199,21 +215,31 @@
                         </div>
 
                         <h3 class="text-xl font-bold text-foreground mb-0.5">
-                            {{ $influencer->first_name }} {{ $influencer->last_name }}
-                        </h3>
-                        <p class="text-[11px] font-bold text-muted-foreground mb-3 uppercase tracking-widest flex items-center justify-center gap-1.5">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                            </svg>
                             {{ $influencer->influencerProfile->pseudo ?? Str::slug($influencer->name) }}
+                        </h3>
+                        <p class="text-[11px] font-bold text-muted-foreground mb-2 uppercase tracking-widest flex items-center justify-center gap-1.5">
+                            <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                            {{ $influencer->influencerProfile->first_name ?? $influencer->first_name }} {{ $influencer->influencerProfile->last_name ?? $influencer->last_name }}
                         </p>
 
+                        <!-- Niche Badge -->
+                        @if($influencer->influencerProfile?->niche)
+                        <div class="mb-3">
+                            <span class="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-wider border border-primary/20">
+                                {{ $influencer->influencerProfile->niche === 'Autre' ? $influencer->influencerProfile->niche_other : $influencer->influencerProfile->niche }}
+                            </span>
+                        </div>
+                        @endif
+
                         <p class="text-sm text-muted-foreground leading-relaxed font-medium line-clamp-2 max-w-[240px]">
-                            {{ $influencer->professional_title ?? 'Créateur de contenu innovant spécialisé.' }}
+                            {{ $influencer->influencerProfile->professional_title ?? $influencer->professional_title ?? 'Créateur de contenu innovant' }}
                         </p>
                     </div>
 
-                    <div class="mt-8 py-5 border-y border-border flex items-center justify-between gap-2 px-1">
+                    <div class="mt-8 py-5 border-y border-border flex flex-wrap items-center justify-around md:justify-between gap-y-4 gap-x-2 px-1 relative">
                         <div class="flex flex-col items-center">
                             <span class="text-primary font-black text-sm leading-none">12</span>
                             <span class="text-[8px] font-bold text-muted-foreground uppercase tracking-tighter mt-1">Campaigns</span>
@@ -231,34 +257,55 @@
                             <span class="text-[8px] font-bold text-muted-foreground uppercase tracking-tighter mt-1">Taux Conv.</span>
                         </div>
 
-                        @if($influencer->main_platform && $influencer->profile_url)
-                        <a href="{{ $influencer->profile_url }}" target="_blank" class="transition-transform hover:scale-110 flex-shrink-0" title="Voir sur {{ ucfirst($influencer->main_platform->value) }}">
-                            @if($influencer->main_platform->value === 'tiktok')
-                            <div class="w-8 h-8 rounded-lg bg-black text-white flex items-center justify-center shadow-lg">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.03 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96a6.66 6.66 0 014.12-1.55c.02 1.48.01 2.96.02 4.44-1.14.01-2.34.42-3.15 1.25-.85.83-1.16 2.05-1.13 3.22.02 1.05.54 2.11 1.34 2.79.82.72 1.96 1.05 3.04.88 1.14-.11 2.19-.85 2.75-1.85.39-.68.53-1.48.51-2.27-.02-3.85-.01-7.7-.02-11.55z" />
+                        <!-- Main Platform Icon Integrated at the end -->
+                        @if(($influencer->influencerProfile?->main_platform ?? $influencer->main_platform) && ($influencer->influencerProfile?->profile_url ?? $influencer->profile_url))
+                        <div class="flex-shrink-0 ml-1">
+                            <a href="{{ $influencer->influencerProfile->profile_url ?? $influencer->profile_url }}" target="_blank"
+                                class="flex items-center justify-center w-8 h-8 rounded-full bg-card border border-border shadow-sm hover:border-primary hover:text-primary transition-all hover:scale-110"
+                                title="Voir sur {{ ($influencer->influencerProfile?->main_platform ?? $influencer->main_platform)?->label() }}">
+                                @php
+                                $platform = ($influencer->influencerProfile?->main_platform ?? $influencer->main_platform)?->value;
+                                @endphp
+                                @if($platform === 'tiktok')
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
                                 </svg>
-                            </div>
-                            @elseif($influencer->main_platform->value === 'instagram')
-                            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 text-white flex items-center justify-center shadow-lg">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                @elseif($platform === 'instagram')
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
                                 </svg>
-                            </div>
-                            @elseif($influencer->main_platform->value === 'youtube')
-                            <div class="w-8 h-8 rounded-lg bg-red-600 text-white flex items-center justify-center shadow-lg">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                                @elseif($platform === 'youtube')
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 2-2h15a2 2 0 0 1 2 2 24.12 24.12 0 0 1 0 10 2 2 0 0 1-2 2h-15a2 2 0 0 1-2-2Z" />
+                                    <path d="m10 15 5-3-5-3z" />
                                 </svg>
-                            </div>
-                            @elseif($influencer->main_platform->value === 'linkedin')
-                            <div class="w-8 h-8 rounded-lg bg-[#0077b5] text-white flex items-center justify-center shadow-lg">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                                @elseif($platform === 'linkedin')
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                                    <rect width="4" height="12" x="2" y="9" />
+                                    <circle cx="4" cy="4" r="2" />
                                 </svg>
-                            </div>
-                            @endif
-                        </a>
+                                @elseif($platform === 'facebook')
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                                </svg>
+                                @elseif($platform === 'x')
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4l11.733 16h4.267l-11.733-16h-4.267z" />
+                                    <path d="M4 20l6.768-6.768" />
+                                    <path d="M13.232 10.768l6.768-6.768" />
+                                </svg>
+                                @else
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="2" y1="12" x2="22" y2="12" />
+                                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                                </svg>
+                                @endif
+                            </a>
+                        </div>
                         @endif
                     </div>
 
@@ -272,7 +319,7 @@
                         <a href="{{ route('profile.public', $influencer) }}" wire:navigate class="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-background border border-border text-foreground text-xs font-bold hover:border-primary hover:text-primary transition-all group">
                             Voir profil
                             <svg class="w-3.5 h-3.5 opacity-60 transition-colors group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 18l6-6-6-6"></path>
                             </svg>
                         </a>
                     </div>

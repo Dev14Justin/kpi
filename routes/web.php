@@ -58,9 +58,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('portfolio.index');
     })->name('portfolio.index');
 
-    Route::get('/settings', function () {
-        return view('settings.index');
-    })->name('settings.index');
+    Route::get('/professional-tools', function () {
+        return view('professional-tools.index');
+    })->name('professional-tools.index');
+
 
     Route::get('/discussions', function () {
         return view('discussions.index');
@@ -83,4 +84,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

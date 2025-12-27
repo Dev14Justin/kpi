@@ -154,4 +154,9 @@
     .input-field {
         @apply block w-full rounded-xl border border-input bg-card/50 px-4 py-3 text-sm text-foreground shadow-sm transition-all focus:border-primary focus:ring-2 focus:ring-ring focus:outline-none placeholder:text-muted-foreground;
     }
+
+    /* Force background color on select options for better browser/OS compatibility */
+    select option {
+        @apply bg-card text-foreground py-2;
+    }
 }

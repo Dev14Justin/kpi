@@ -28,18 +28,43 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+            'first_name' => [
+                Rule::requiredIf(fn() => $this->input('role') !== UserRole::Enterprise->value),
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'last_name' => [
+                Rule::requiredIf(fn() => $this->input('role') !== UserRole::Enterprise->value),
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'company_name' => [
+                Rule::requiredIf(fn() => $this->input('role') === UserRole::Enterprise->value),
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'industry' => [
+                Rule::requiredIf(fn() => $this->input('role') === UserRole::Enterprise->value),
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'industry_other' => [
+                Rule::requiredIf(fn() => $this->input('role') === UserRole::Enterprise->value && $this->input('industry') === 'Autre'),
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'website' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Password::defaults()],
             'role' => [
                 'nullable',
                 'string',
-                Rule::in([
-                    UserRole::User->value,
-                    UserRole::Influencer->value,
-                    UserRole::Enterprise->value
-                ]),
+                Rule::in(UserRole::values()),
             ],
             'main_platform' => [
                 'nullable',
@@ -53,6 +78,24 @@ class RegisterRequest extends FormRequest
                 'string',
                 'max:255',
                 new ValidPlatformProfileUrl($this->all()),
+            ],
+            'pseudo' => [
+                Rule::requiredIf(fn() => $this->input('role') === UserRole::Influencer->value),
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'niche' => [
+                Rule::requiredIf(fn() => $this->input('role') === UserRole::Influencer->value),
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'niche_other' => [
+                Rule::requiredIf(fn() => $this->input('role') === UserRole::Influencer->value && $this->input('niche') === 'Autre'),
+                'nullable',
+                'string',
+                'max:255',
             ],
         ];
     }

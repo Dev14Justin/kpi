@@ -19,7 +19,13 @@
                     <div class="flex-1 min-w-0">
                         <div class="flex flex-wrap items-center gap-3">
                             <h2 class="text-3xl font-bold text-gray-900 dark:text-white truncate">
+                                @if($user->role === \App\Enums\UserRole::Enterprise && $user->enterpriseProfile)
+                                {{ $user->enterpriseProfile->company_name }}
+                                @elseif($user->role === \App\Enums\UserRole::Influencer && $user->influencerProfile)
+                                {{ $user->influencerProfile->first_name }} {{ $user->influencerProfile->last_name }}
+                                @else
                                 {{ $user->first_name }} {{ $user->last_name }}
+                                @endif
                             </h2>
                             <span class="px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider">
                                 {{ $user->role->label() ?? 'Utilisateur' }}
@@ -27,7 +33,13 @@
                         </div>
                         @if($user->privacy_settings['show_professional_title'] ?? true)
                         <p class="text-gray-600 dark:text-gray-400 font-medium">
+                            @if($user->role === \App\Enums\UserRole::Enterprise && $user->enterpriseProfile)
+                            {{ $user->enterpriseProfile->industry ?? 'Entreprise' }}
+                            @elseif($user->role === \App\Enums\UserRole::Influencer && $user->influencerProfile)
+                            {{ $user->influencerProfile->professional_title ?? 'Influenceur' }}
+                            @else
                             {{ $user->professional_title ?? 'Membre KpiHub' }}
+                            @endif
                         </p>
                         @endif
                     </div>
@@ -61,12 +73,26 @@
                             </div>
                             <div class="min-w-0">
                                 <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">Email</p>
-                                <p class="text-gray-900 dark:text-gray-300 font-medium truncate">{{ $user->email }}</p>
+                                @php
+                                $emailToDisplay = match($user->role) {
+                                \App\Enums\UserRole::Influencer => $user->influencerProfile?->email,
+                                \App\Enums\UserRole::Enterprise => $user->enterpriseProfile?->company_email,
+                                default => $user->email,
+                                } ?? $user->email;
+                                @endphp
+                                <p class="text-gray-900 dark:text-gray-300 font-medium truncate">{{ $emailToDisplay }}</p>
                             </div>
                         </div>
                         @endif
 
-                        @if(($user->privacy_settings['show_phone'] ?? true) && $user->phone)
+                        @php
+                        $phoneToDisplay = match($user->role) {
+                        \App\Enums\UserRole::Influencer => $user->influencerProfile?->phone,
+                        \App\Enums\UserRole::Enterprise => $user->enterpriseProfile?->company_phone,
+                        default => $user->phone,
+                        } ?? $user->phone;
+                        @endphp
+                        @if(($user->privacy_settings['show_phone'] ?? true) && $phoneToDisplay)
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-400">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,12 +101,24 @@
                             </div>
                             <div>
                                 <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">Téléphone</p>
-                                <p class="text-gray-900 dark:text-gray-300 font-medium">{{ $user->phone }}</p>
+                                <p class="text-gray-900 dark:text-gray-300 font-medium">{{ $phoneToDisplay }}</p>
                             </div>
                         </div>
                         @endif
 
-                        @if(($user->privacy_settings['show_location'] ?? true) && ($user->country || $user->city))
+                        @php
+                        $cityToDisplay = match($user->role) {
+                        \App\Enums\UserRole::Influencer => $user->influencerProfile?->city,
+                        \App\Enums\UserRole::Enterprise => $user->enterpriseProfile?->company_city,
+                        default => $user->city,
+                        } ?? $user->city;
+                        $countryToDisplay = match($user->role) {
+                        \App\Enums\UserRole::Influencer => $user->influencerProfile?->country,
+                        \App\Enums\UserRole::Enterprise => $user->enterpriseProfile?->company_country,
+                        default => $user->country,
+                        } ?? $user->country;
+                        @endphp
+                        @if(($user->privacy_settings['show_location'] ?? true) && ($countryToDisplay || $cityToDisplay))
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-400">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,7 +129,7 @@
                             <div>
                                 <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">Localisation</p>
                                 <p class="text-gray-900 dark:text-gray-300 font-medium">
-                                    {{ $user->city }}{{ $user->city && $user->country ? ', ' : '' }}{{ $user->country }}
+                                    {{ $cityToDisplay }}{{ $cityToDisplay && $countryToDisplay ? ', ' : '' }}{{ $countryToDisplay }}
                                 </p>
                             </div>
                         </div>
@@ -99,18 +137,23 @@
                     </div>
                 </div>
 
+                @php
+                $socialLinksToDisplay = match($user->role) {
+                \App\Enums\UserRole::Influencer => $user->influencerProfile?->social_links,
+                \App\Enums\UserRole::Enterprise => $user->enterpriseProfile?->social_links,
+                default => $user->social_links,
+                } ?? $user->social_links;
+                @endphp
                 <!-- Social Links -->
-                @if(($user->privacy_settings['show_social'] ?? true) && $user->social_links && count(array_filter($user->social_links)) > 0)
+                @if(($user->privacy_settings['show_social'] ?? true) && $socialLinksToDisplay && count(array_filter($socialLinksToDisplay)) > 0)
                 <div class="bg-white dark:bg-[#1C1C1C] rounded-2xl p-6 border border-gray-200 dark:border-white/5 shadow-sm">
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Réseaux Sociaux</h3>
                     <div class="flex flex-wrap gap-3">
-                        @foreach($user->social_links as $platform => $url)
+                        @foreach($socialLinksToDisplay as $platform => $url)
                         @if($url)
                         <a href="{{ $url }}" target="_blank"
                             class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-500 hover:text-accent hover:bg-accent/10 transition">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.477 2 2 6.477 2 12c0 5.523 4.477 10 10 10s10-4.477 10-10c0-5.523-4.477-10-10-10zM12 4c4.418 0 8 3.582 8 8s-3.582 8-8 8-8-3.582-8-8 3.582-8 8-8z" />
-                            </svg>
+                            <i class="fab fa-{{ $platform }}"></i>
                         </a>
                         @endif
                         @endforeach
@@ -126,10 +169,17 @@
                 <div class="bg-white dark:bg-[#1C1C1C] rounded-2xl p-6 border border-gray-200 dark:border-white/5 shadow-sm">
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">À propos</h3>
                     <div class="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-400">
-                        @if($user->bio)
-                        <p class="whitespace-pre-line">{{ $user->bio }}</p>
+                        @php
+                        $bioToDisplay = match($user->role) {
+                        \App\Enums\UserRole::Influencer => $user->influencerProfile?->bio,
+                        \App\Enums\UserRole::Enterprise => $user->enterpriseProfile?->description,
+                        default => $user->bio,
+                        } ?? $user->bio;
+                        @endphp
+                        @if($bioToDisplay)
+                        <p class="whitespace-pre-line">{{ $bioToDisplay }}</p>
                         @else
-                        <p class="italic text-gray-500">Aucune biographie disponible.</p>
+                        <p class="italic text-gray-500">Aucune information disponible.</p>
                         @endif
                     </div>
                 </div>

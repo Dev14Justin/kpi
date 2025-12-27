@@ -41,7 +41,14 @@
                     <span>Nom</span>
                     <span class="text-red-500">*</span>
                 </x-input-label>
-                <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $user->last_name)" required />
+                @php
+                $lastNameValue = match($user->role) {
+                \App\Enums\UserRole::Influencer => $user->influencerProfile?->last_name,
+                \App\Enums\UserRole::Enterprise => $user->enterpriseProfile?->manager_last_name,
+                default => $user->last_name,
+                } ?? $user->last_name;
+                @endphp
+                <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $lastNameValue)" required />
                 <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
             </div>
 
@@ -50,47 +57,96 @@
                     <span>Prénom</span>
                     <span class="text-red-500">*</span>
                 </x-input-label>
-                <x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full" :value="old('first_name', $user->first_name)" required autofocus />
+                @php
+                $firstNameValue = match($user->role) {
+                \App\Enums\UserRole::Influencer => $user->influencerProfile?->first_name,
+                \App\Enums\UserRole::Enterprise => $user->enterpriseProfile?->manager_first_name,
+                default => $user->first_name,
+                } ?? $user->first_name;
+                @endphp
+                <x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full" :value="old('first_name', $firstNameValue)" required autofocus />
                 <x-input-error class="mt-2" :messages="$errors->get('first_name')" />
             </div>
 
+            @if($user->role === \App\Enums\UserRole::Enterprise)
+            <div>
+                <x-input-label for="manager_phone">
+                    <span>Téléphone du responsable</span>
+                    <span class="text-red-500">*</span>
+                </x-input-label>
+                <x-text-input id="manager_phone" name="manager_phone" type="text" class="mt-1 block w-full" :value="old('manager_phone', $user->enterpriseProfile?->manager_phone)" required />
+                <x-input-error class="mt-2" :messages="$errors->get('manager_phone')" />
+            </div>
+            @else
             <div>
                 <x-input-label for="email">
                     <span>Email</span>
                     <span class="text-red-500">*</span>
                 </x-input-label>
-                <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+                @php
+                $emailValue = match($user->role) {
+                \App\Enums\UserRole::Influencer => $user->influencerProfile?->email,
+                default => $user->email,
+                } ?? $user->email;
+                @endphp
+                <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $emailValue)" required autocomplete="username" />
                 <x-input-error class="mt-2" :messages="$errors->get('email')" />
             </div>
+            @endif
 
             @if($user->role !== \App\Enums\UserRole::Enterprise)
             <div>
                 <x-input-label for="gender" :value="__('Genre')" />
+                @php
+                $genderValue = $user->role === \App\Enums\UserRole::Influencer
+                ? $user->influencerProfile?->gender
+                : $user->gender;
+                @endphp
                 <select id="gender" name="gender" class="mt-1 block w-full border-input bg-background text-foreground focus:border-primary focus:ring-primary/10 rounded-xl shadow-sm transition-all py-3 px-4 outline-none">
                     <option value="">Selectionner</option>
-                    <option value="male" {{ old('gender', $user->gender) === 'male' ? 'selected' : '' }}>Masculin</option>
-                    <option value="female" {{ old('gender', $user->gender) === 'female' ? 'selected' : '' }}>Féminin</option>
+                    <option value="male" {{ old('gender', $genderValue) === 'male' ? 'selected' : '' }}>Masculin</option>
+                    <option value="female" {{ old('gender', $genderValue) === 'female' ? 'selected' : '' }}>Féminin</option>
                 </select>
             </div>
 
             <div>
                 <x-input-label for="professional_title" :value="__('Titre Professionnel')" />
-                <x-text-input id="professional_title" name="professional_title" type="text" class="mt-1 block w-full" :value="old('professional_title', $user->professional_title)" placeholder="Ex: Créateur de contenu" />
+                @php
+                $profTitleValue = $user->role === \App\Enums\UserRole::Influencer
+                ? $user->influencerProfile?->professional_title
+                : $user->professional_title;
+                @endphp
+                <x-text-input id="professional_title" name="professional_title" type="text" class="mt-1 block w-full" :value="old('professional_title', $profTitleValue)" placeholder="Ex: Créateur de contenu" />
             </div>
 
             <div>
                 <x-input-label for="country" :value="__('Pays')" />
-                <x-text-input id="country" name="country" type="text" class="mt-1 block w-full" :value="old('country', $user->country)" />
+                @php
+                $countryValue = $user->role === \App\Enums\UserRole::Influencer
+                ? $user->influencerProfile?->country
+                : $user->country;
+                @endphp
+                <x-text-input id="country" name="country" type="text" class="mt-1 block w-full" :value="old('country', $countryValue)" />
             </div>
 
             <div>
                 <x-input-label for="city" :value="__('Ville')" />
-                <x-text-input id="city" name="city" type="text" class="mt-1 block w-full" :value="old('city', $user->city)" />
+                @php
+                $cityValue = $user->role === \App\Enums\UserRole::Influencer
+                ? $user->influencerProfile?->city
+                : $user->city;
+                @endphp
+                <x-text-input id="city" name="city" type="text" class="mt-1 block w-full" :value="old('city', $cityValue)" />
             </div>
 
             <div>
                 <x-input-label for="phone" :value="__('Téléphone')" />
-                <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" />
+                @php
+                $phoneValue = $user->role === \App\Enums\UserRole::Influencer
+                ? $user->influencerProfile?->phone
+                : $user->phone;
+                @endphp
+                <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $phoneValue)" />
             </div>
             @endif
         </div>
@@ -98,7 +154,12 @@
         @if($user->role !== \App\Enums\UserRole::Enterprise)
         <div class="mt-4">
             <x-input-label for="bio" :value="__('À propos de vous')" />
-            <textarea id="bio" name="bio" rows="3" class="mt-1 block w-full border-input bg-background text-foreground focus:border-primary focus:ring-primary/10 rounded-xl shadow-sm transition-all py-3 px-4 outline-none">{{ old('bio', $user->bio) }}</textarea>
+            @php
+            $bioValue = $user->role === \App\Enums\UserRole::Influencer
+            ? $user->influencerProfile?->bio
+            : $user->bio;
+            @endphp
+            <textarea id="bio" name="bio" rows="3" class="mt-1 block w-full border-input bg-background text-foreground focus:border-primary focus:ring-primary/10 rounded-xl shadow-sm transition-all py-3 px-4 outline-none">{{ old('bio', $bioValue) }}</textarea>
         </div>
 
         @if($user->role !== \App\Enums\UserRole::Influencer)
@@ -163,7 +224,7 @@
         @if($user->role === \App\Enums\UserRole::Enterprise)
         <div class="mt-8 pt-6 border-t border-gray-700">
             <h3 class="text-md font-bold text-accent mb-4">Informations Entreprise</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" x-data="{ industry: '{{ old('industry', $user->enterpriseProfile?->industry) }}' }">
                 <div>
                     <x-input-label for="company_name" :value="__('Nom de l\'entreprise')" />
                     <x-text-input id="company_name" name="company_name" type="text" class="mt-1 block w-full" :value="old('company_name', $user->enterpriseProfile?->company_name)" />
@@ -178,7 +239,18 @@
                 </div>
                 <div>
                     <x-input-label for="industry" :value="__('Domaine d\'Activité')" />
-                    <x-text-input id="industry" name="industry" type="text" class="mt-1 block w-full" :value="old('industry', $user->enterpriseProfile?->industry)" />
+                    <select id="industry" name="industry" x-model="industry" class="mt-1 block w-full border-input bg-background text-foreground focus:border-primary focus:ring-primary/10 rounded-xl shadow-sm transition-all py-3 px-4 outline-none">
+                        <option value="">Selectionner</option>
+                        @foreach(['Agroalimentaire', 'Automobile', 'Banque / Assurance', 'BTP / Construction', 'Commerce / Retail', 'Communication / Médias', 'Éducation / Formation', 'Électronique / Tech', 'Énergie / Environnement', 'Finance / Conseil', 'Hôtellerie / Restauration', 'Immobilier', 'Industrie Pharmaceutique', 'Informatique / Télécoms', 'Luxe / Cosmétique', 'Mode / Textile', 'Santé / Médical', 'Services aux entreprises', 'Sport / Loisirs', 'Transport / Logistique', 'Voyage / Tourisme', 'E-commerce'] as $item)
+                        <option value="{{ $item }}">{{ $item }}</option>
+                        @endforeach
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+
+                <div x-show="industry === 'Autre'" class="col-span-full">
+                    <x-input-label for="industry_other" :value="__('Précisez votre domaine d\'activité')" />
+                    <x-text-input id="industry_other" name="industry_other" type="text" class="mt-1 block w-full" :value="old('industry_other', $user->enterpriseProfile?->industry_other)" />
                 </div>
                 <div>
                     <x-input-label for="website" :value="__('Site Web')" />

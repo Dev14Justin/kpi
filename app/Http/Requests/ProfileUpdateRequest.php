@@ -65,10 +65,12 @@ class ProfileUpdateRequest extends FormRequest
             // Enterprise Specific
             'company_name' => ['nullable', 'string', 'max:255'],
             'company_email' => ['nullable', 'email', 'max:255'],
+            'manager_phone' => ['nullable', 'string', 'max:20'],
             'company_phone' => ['nullable', 'string', 'max:20'],
             'company_country' => ['nullable', 'string', 'max:255'],
             'company_city' => ['nullable', 'string', 'max:255'],
             'industry' => ['nullable', 'string', 'max:255'],
+            'industry_other' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:1000'],
             'website' => ['nullable', 'url', 'max:255'],
 

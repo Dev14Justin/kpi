@@ -21,6 +21,7 @@
         }
     </script>
 
+    @livewireStyles
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -41,6 +42,7 @@
             {{ $slot }}
         </div>
     </div>
+    @livewireScripts
 </body>
 
 </html>

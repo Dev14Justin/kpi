@@ -12,29 +12,47 @@
                 </a>
             </div>
 
-            <!-- Centered Navigation Links -->
-            <div class="hidden sm:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 space-x-8">
-                <x-nav-link :href="route('influencers.index')" :active="request()->routeIs('influencers.index')" wire:navigate>
-                    {{ __('Influenceurs') }}
+            <!-- Navigation Links (Icons only on mobile) -->
+            <div class="flex items-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 space-x-5 md:space-x-8">
+                <x-nav-link :href="route('influencers.index')" :active="request()->routeIs('influencers.index')" wire:navigate class="gap-2 px-2 sm:px-1">
+                    <svg class="w-5 h-5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span class="hidden md:inline">{{ __('Influenceurs') }}</span>
                 </x-nav-link>
-                <x-nav-link :href="route('ranking.index')" :active="request()->routeIs('ranking.index')" wire:navigate>
-                    {{ __('Classement') }}
+                <x-nav-link :href="route('ranking.index')" :active="request()->routeIs('ranking.index')" wire:navigate class="gap-2 px-2 sm:px-1">
+                    <svg class="w-5 h-5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-1.947m1.218 0a3.42 3.42 0 001.946 1.947m1.218 0a3.42 3.42 0 001.946-1.947m1.218 0a3.42 3.42 0 001.946-1.947m1.218 0a3.42 3.42 0 001.946-1.947m1.218 0a3.42 3.42 0 001.946-1.947M12 2v2m0 16v2m-8-8H2m20 0h-2m-2.05-4.95l-1.41 1.41M5.46 18.54l-1.41 1.41M18.54 18.54l1.41-1.41M5.46 5.46l1.41-1.41" />
+                    </svg>
+                    <span class="hidden md:inline">{{ __('Classement') }}</span>
                 </x-nav-link>
-                <x-nav-link :href="route('enterprises.index')" :active="request()->routeIs('enterprises.index')" wire:navigate>
-                    {{ __('Entreprises') }}
+                <x-nav-link :href="route('enterprises.index')" :active="request()->routeIs('enterprises.index')" wire:navigate class="gap-2 px-2 sm:px-1">
+                    <svg class="w-5 h-5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    <span class="hidden md:inline">{{ __('Entreprises') }}</span>
                 </x-nav-link>
             </div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-3">
+            <!-- User Dropdown & Theme Toggle (Always visible) -->
+            <div class="flex items-center gap-2 sm:gap-3">
                 <x-theme-toggle />
 
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-lg text-muted-foreground bg-transparent hover:text-foreground focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                        <button class="inline-flex items-center gap-2.5 px-1 sm:px-3 py-1.5 border border-transparent text-sm leading-4 font-medium rounded-xl text-muted-foreground bg-transparent hover:text-foreground hover:bg-muted/50 focus:outline-none transition ease-in-out duration-150">
+                            <div class="flex-shrink-0 relative">
+                                @if(Auth::user()->profile_photo_path)
+                                <img src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}" alt="{{ Auth::user()->name }}" class="w-8 h-8 rounded-full object-cover border border-border shadow-sm">
+                                @else
+                                <div class="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white text-[10px] font-black border border-border shadow-sm">
+                                    {{ substr(Auth::user()->name ?? 'U', 0, 1) }}
+                                </div>
+                                @endif
+                                <div class="absolute -bottom-0.5 -right-0.5 bg-green-500 w-2.5 h-2.5 rounded-full border-2 border-card"></div>
+                            </div>
 
-                            <div class="ms-1">
+                            <div class="ms-0.5 opacity-50">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
@@ -43,7 +61,6 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        {{-- Link to Personal Dashboard/Profile Area --}}
                         <x-dropdown-link :href="route('dashboard')" wire:navigate>
                             {{ __('Mon Espace') }}
                         </x-dropdown-link>
@@ -52,10 +69,8 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
-                        <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault();
                                                 this.closest('form').submit();">
@@ -65,59 +80,8 @@
                     </x-slot>
                 </x-dropdown>
             </div>
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted focus:outline-none transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-card border-b border-border">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('influencers.index')" :active="request()->routeIs('influencers.index')" wire:navigate>
-                {{ __('Influenceurs') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('ranking.index')" :active="request()->routeIs('ranking.index')" wire:navigate>
-                {{ __('Classement') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('enterprises.index')" :active="request()->routeIs('enterprises.index')" wire:navigate>
-                {{ __('Entreprises') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                {{ __('Mon Espace') }}
-            </x-responsive-nav-link>
-        </div>
 
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-border">
-            <div class="px-4">
-                <div class="font-medium text-base text-foreground">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-muted-foreground">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')" wire:navigate>
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Se déconnecter') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
-        </div>
-    </div>
 </nav>
